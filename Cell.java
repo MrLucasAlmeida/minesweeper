@@ -3,6 +3,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.awt.Color;
+import java.awt.Image;
 
 
 public class Cell {
@@ -14,25 +15,11 @@ public class Cell {
     private boolean isRevealed;
     private boolean hasBomb;
     private int numberAdjBombs;
-    
-
-
 
 
     public Cell(JButton b) {
         // button
         button = b;
-        // initialize event listener
-        b.addActionListener(new ActionListener(){  
-            public void actionPerformed(ActionEvent e){  
-                // does things when tile is clicked
-                // reveals square
-                
-            }
-        });
-        
-
-
         // gets the x and y position
         String[] numbers = b.getName().split("_");
         xPos = Integer.parseInt(numbers[0]);
@@ -41,6 +28,7 @@ public class Cell {
         isRevealed = false;
         hasBomb = false;
         numberAdjBombs = 0;
+        
     }
 
     // getters
@@ -71,7 +59,20 @@ public class Cell {
 
 
 
-
+    public ImageIcon processImage(String filePath) {
+        if (new File(filePath).exists()) {
+            ImageIcon icon = new ImageIcon(filePath);
+            Image image = icon.getImage();
+            int h = this.button.getHeight();
+            int w = this.button.getWidth();
+            image = image.getScaledInstance(h, w, Image.SCALE_SMOOTH);
+            return new ImageIcon(image);
+        } else {
+            System.out.println("File not found");
+        }
+        return null;
+        
+    }
 
 
     // instance methods
@@ -79,43 +80,58 @@ public class Cell {
         // checks if it has bomb
         // checks what number of adjacent bombs and sets colors
         // sets revealed field to true
+        this.isRevealed = true;
 
         // checks if has bomb
         if (this.hasBomb) {
             // sets the icon to bomb
             // background to white
             // checks if the file exists
-            if (new File(".resources\bombIcon.png").exists()) {
-                this.button.setIcon(new ImageIcon(".resources\bombIcon.png"));
-            } else {
-                System.out.println("File not found");
-            }
+            String bombFilePath = "images\\bombIcon.png";
+            this.button.setIcon(processImage(bombFilePath));
+            this.button.setBackground(new Color(230,230,230));
             
             return;
         } else {
             //checks adj bombs count and sets colors
             switch (this.numberAdjBombs) {
                 case 0:
-                    this.button.setBackground(Color.WHITE);
+                    this.button.setBackground(new Color(230,230,230));
                     break;
                 case 1:
-                    this.button.setBackground(new Color(0,240,90));
-                    this.button.setText("1");
+                    String oneIconPath = "images\\oneIcon.png";
+                    this.button.setIcon(processImage(oneIconPath));
                     break;
                 case 2:
-                    this.button.setBackground(new Color(255,248,10));
-                    this.button.setText("2");
+                    String twoIconPath = "images\\twoIcon.png";
+                    this.button.setIcon(processImage(twoIconPath));
                     break;
                 case 3:
-                    this.button.setBackground(new Color(245,196,0));
-                    this.button.setText("3");
+                    String threeIconPath = "images\\threeIcon.png";
+                    this.button.setIcon(processImage(threeIconPath));
                     break;
                 case 4:
-                    this.button.setBackground(new Color(60,0,255));
-                    this.button.setText("4");
+                    String fourIconPath = "images\\fourIcon.png";
+                    this.button.setIcon(processImage(fourIconPath));
+                    break;
+                case 5:
+                    String fiveIconPath = "images\\fiveIcon.png";
+                    this.button.setIcon(processImage(fiveIconPath));
+                    break;
+                case 6:
+                    String sixIconPath = "images\\sixIcon.png";
+                    this.button.setIcon(processImage(sixIconPath));
+                    break;
+                case 7:
+                    String sevenIconPath = "images\\sevenIcon.png";
+                    this.button.setIcon(processImage(sevenIconPath));
+                    break;
+                case 8:
+                    String eightIconPath = "images\\eightIcon.png";
+                    this.button.setIcon(processImage(eightIconPath));
                     break;
                 default:
-                    this.button.setBackground(Color.GRAY);
+                    break;
                 
 
 
