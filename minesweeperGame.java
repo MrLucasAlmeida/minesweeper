@@ -7,7 +7,12 @@
 
 public class minesweeperGame {
     public static void main(String[] args) {
-        GameBoard board = new GameBoard();
+        // gets the settings from the user
+        InitGame newGame = new InitGame();
+
+
+
+        
          
           
         

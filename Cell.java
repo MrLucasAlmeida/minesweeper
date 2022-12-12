@@ -14,7 +14,9 @@ public class Cell {
     private int yPos;
     private boolean isRevealed;
     private boolean hasBomb;
+    private boolean isFlagged;
     private int numberAdjBombs;
+    
 
 
     public Cell(JButton b) {
@@ -27,6 +29,7 @@ public class Cell {
         // rest of fields
         isRevealed = false;
         hasBomb = false;
+        isFlagged = false;
         numberAdjBombs = 0;
         
     }
@@ -49,6 +52,27 @@ public class Cell {
     }
     public void setHasBomb(boolean b) {
         this.hasBomb = b;
+    }
+    public boolean getIsFlagged() {
+        return this.isFlagged;
+    }
+    public void setIsFlag() {
+        // this function flags if unflagged and unflags if flagged
+
+        // doesn't flag if already revealed
+        if (this.isRevealed) {
+            return;
+        }
+
+        this.isFlagged = !this.isFlagged;
+        // set icon
+        if (this.isFlagged) {
+            String flagFilePath = "images\\flagIcon.png";
+            button.setIcon(processImage(flagFilePath));
+        } else {
+            button.setIcon(null);
+        }
+        
     }
     public int nAdjBombs() {
         return this.numberAdjBombs;
@@ -73,7 +97,7 @@ public class Cell {
         return null;
         
     }
-
+    
 
     // instance methods
     public void revealCell() {
@@ -81,6 +105,7 @@ public class Cell {
         // checks what number of adjacent bombs and sets colors
         // sets revealed field to true
         this.isRevealed = true;
+        this.isFlagged = false;
 
         // checks if has bomb
         if (this.hasBomb) {

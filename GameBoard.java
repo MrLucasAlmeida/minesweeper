@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import java.awt.*;
 import java.awt.event.*;
 import java.awt.Color;
 import java.awt.Font;
@@ -18,10 +19,10 @@ public class GameBoard extends JPanel {
 
 
 
-    private final int NUM_ROWS = 10;
-    private final int NUM_COLS = 10;
-    private final int NUM_BOMBS = 5;
-    private final int Bsize = 60;
+    private final int NUM_ROWS = 20;
+    private final int NUM_COLS = 20;
+    private final int NUM_BOMBS = 50;
+    private final int Bsize = 40;
     
     
     private Cell[][] board;
@@ -33,6 +34,8 @@ public class GameBoard extends JPanel {
 
 
     public GameBoard() {
+
+
         board = new Cell[NUM_ROWS][NUM_COLS];
         // creates JFrame
         JFrame f = new JFrame("MineSweeper");
@@ -62,24 +65,37 @@ public class GameBoard extends JPanel {
                 // places cell in board
                 board[row][col] = cell;
 
-
                 final int rowFinal = row;
                 final int colFinal = col;
-                // action listener
-                b.addActionListener(new ActionListener(){  
-                    public void actionPerformed(ActionEvent e){  
-                        // explores square
-                        explore(rowFinal,colFinal);
-                        
+                b.addMouseListener(new MouseListener() {
+                    public void mouseClicked(MouseEvent e) {
+                        if (e.getButton() == MouseEvent.BUTTON1) {
+                            // left click
+                            // explores square and checks if game lost
+                            if (cell.getHasBomb()) {
+                                endGame("You lost");
+
+                            }
+                            explore(rowFinal,colFinal);
+
+                            // checks if game is won
+                            if (checkGameWon()) {
+                                endGame("You won");
+                            }
 
 
-
-
-                        // checks if game is over
-
-                        
+                        }
+                        if (e.getButton() == MouseEvent.BUTTON3) {
+                            // right click
+                            cell.setIsFlag();
+                        }
                     }
+                    public void mousePressed(MouseEvent e) {}
+                    public void mouseReleased(MouseEvent e) {}
+                    public void mouseEntered(MouseEvent e) {}
+                    public void mouseExited(MouseEvent e) {}
                 });
+                
                 
                 
                 
@@ -89,7 +105,15 @@ public class GameBoard extends JPanel {
             }
         }
         f.add(p);
-        f.setVisible(true); 
+        f.setLayout(null);
+        f.setVisible(true);
+
+
+
+
+
+
+
 
         // initializes board
         placeBombs();
@@ -163,6 +187,28 @@ public class GameBoard extends JPanel {
 
             }
         }
+    }
+
+
+    
+    public void endGame(String message) {
+        revealAll();
+        JOptionPane.showMessageDialog(null, message, "Status:", JOptionPane.INFORMATION_MESSAGE);
+    } 
+
+    public boolean checkGameWon() {
+        // checks if the number of nonRevealed squares is equal to the number of bombs
+        int nonRevealedCounter = 0;
+        for(int row = 0; row < NUM_ROWS; row++) {
+            for(int col = 0; col < NUM_COLS; col++) {
+                if (!board[row][col].getIsRevealed()) {
+                    nonRevealedCounter++;
+                }
+            }
+        }
+        return nonRevealedCounter == NUM_BOMBS;
+
+
     }
 
 
