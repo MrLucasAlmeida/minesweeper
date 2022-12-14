@@ -43,7 +43,7 @@ public class GameBoard extends JPanel {
         // loads images
         images = new ImageIcon[files.length];
         for (int i = 0; i < files.length; i++) {
-            images[i] = processImage("minesweeper\\images\\" + files[i]);
+            images[i] = processImage("images\\" + files[i]);
         }
         
         board = new Cell[numRows][numCols];
