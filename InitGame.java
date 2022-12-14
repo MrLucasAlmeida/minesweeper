@@ -4,25 +4,12 @@ import java.awt.event.*;
 
 public class InitGame {
     
-
-
-
-
     private int numRows;
     private int numCols;
     private int numBombs;
-
     private JFrame f;
 
-
     public InitGame() {
-
-        // numRows = 0;
-        // numCols = 0;
-        // numBombs = 0;
-
-
-
 
         f = new JFrame();
         f.setTitle("Settings");
@@ -57,6 +44,7 @@ public class InitGame {
         JLabel hardL = new JLabel("Hard");
         hardL.setBounds(100, 110, 50, 20);
 
+        // adds difficulty buttons to the frame
         ButtonGroup bg1 = new ButtonGroup();
         bg1.add(easy);
         bg1.add(normal);
@@ -108,79 +96,45 @@ public class InitGame {
                     // small
                     numRows = 10;
                     numCols = 10;
-
                 } else if (medium.isSelected()) {
                     // medium
                     numRows = 20;
                     numCols = 20;
-
                 } else {
                     // large
                     numRows = 30;
                     numCols = 30;
-
                 }
-                
-                
-                
-                
-                
                 
                 // check difficulty
                 if (easy.isSelected()) {
                     // easy
                     numBombs = (int)(numRows * numCols * 0.10);
-
                 } else if (normal.isSelected()) {
                     // normal
-                    numBombs = (int)(numRows * numCols * 0.20);
-
+                    numBombs = (int)(numRows * numCols * 0.15);
                 } else {
                     // hard
-                    numBombs = (int)(numRows * numCols * 0.30);
-
+                    numBombs = (int)(numRows * numCols * 0.20);
                 }
-
-
-
-
 
                 // close the window
                 f.dispose();
 
                 // starts and minesweeper game
-                GameBoard board = new GameBoard();
+                GameBoard board = new GameBoard(numRows,numCols,numBombs);
             }
         });  
 
 
-
-
         f.add(submitButton);
-
 
         f.setLayout(null);
         f.setVisible(true);
         
-
         // default values for difficulty and game size
         normal.setSelected(true);
         medium.setSelected(true);
-        
-
-
 
     }
-
-
-
-
-
-
-    // getters
-    public JFrame getFrame() {
-        return this.f;
-    }
-
-
 }
